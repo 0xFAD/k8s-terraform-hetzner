@@ -1,0 +1,30 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration:
+  kubeletExtraArgs:
+    node-ip: __NODE_PRIVATE_IP__
+localAPIEndpoint:
+  advertiseAddress: __NODE_PRIVATE_IP__
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+controlPlaneEndpoint: "__NODE_PUBLIC_IP__:6443"
+imageRepository: k8s.gcr.io
+kubernetesVersion: v1.18.0
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 10.96.0.0/12
+  podSubnet: 192.168.0.0/16
+
+apiServer: {}
+controllerManager: {}
+scheduler: {}
+dns:
+  type: CoreDNS
+
+etcd:
+  local:
+    dataDir: /var/lib/etcd

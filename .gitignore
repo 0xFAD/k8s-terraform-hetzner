@@ -1,0 +1,9 @@
+.vscode/
+.idea/
+.terraform
+secrets/
+.DS_Store
+
+# Terraform
+terraform.tfvars
+terraform.tfstate*
