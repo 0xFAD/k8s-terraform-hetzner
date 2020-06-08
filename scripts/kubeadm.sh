@@ -40,6 +40,8 @@ fi
 systemctl restart kubelet.service
 # ---------------------------------------------------------------------------------------------------------------------------------- #
 
+ufw default deny outgoing
+ufw allow out on eth0 from $NODE_PUBLIC_IP
 
 # Master nodes --------------------------------------------------------------------------------------------------------------------- #
 if [[ "$NODE_NAME" == "master" ]]; then
@@ -57,6 +59,9 @@ if [[ "$NODE_NAME" == "master" ]]; then
 
     if [ -f /tmp/weave-net.yaml ]; then
       kubectl apply -f /tmp/weave-net.yaml;
+      
+      ufw allow in on weave to 192.168.0.0/16 comment "WEAVE"
+      ufw allow out on weave from 192.168.0.0/16 comment "WEAVE"
     fi
     
     exit 0;
@@ -82,6 +87,10 @@ if [[ "$(echo $NODE_NAME | grep '^node-')" != "" ]]; then
     kubeadm join --config=/tmp/join.yaml
 
     systemctl restart kubelet.service
+    
+    ufw allow in on weave to 192.168.0.0/16 comment "WEAVE"
+    ufw allow out on weave from 192.168.0.0/16 comment "WEAVE"
+
     exit 0;
   fi
 fi

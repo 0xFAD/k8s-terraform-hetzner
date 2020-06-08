@@ -66,6 +66,7 @@ resource "hcloud_server_network" "cluster_network_master" {
   }
 }
 
+
 resource "hcloud_server" "master" {
   name        = "master"
   image       = "debian-10"
@@ -137,6 +138,7 @@ resource "hcloud_server_network" "cluster_network_node" {
     inline = ["bash /tmp/kubeadm.sh"]
   }
 }
+
 
 resource "hcloud_server" "node" {
   count       = var.node_count
