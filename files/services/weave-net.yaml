@@ -208,6 +208,8 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
+                - name: IPALLOC_RANGE
+                  value: 192.168.0.0/16
               image: "docker.io/weaveworks/weave-npc:2.6.4"
               resources:
                 requests:

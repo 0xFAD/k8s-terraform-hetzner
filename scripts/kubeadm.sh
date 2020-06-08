@@ -60,8 +60,8 @@ if [[ "$NODE_NAME" == "master" ]]; then
     if [ -f /tmp/weave-net.yaml ]; then
       kubectl apply -f /tmp/weave-net.yaml;
       
-      ufw allow in on weave to 192.168.0.0/16 comment "WEAVE"
-      ufw allow out on weave from 192.168.0.0/16 comment "WEAVE"
+      ufw allow in on weave to 192.168.0.0/16 from 192.168.0.0/16 comment "WEAVE"
+      ufw allow out on weave from 192.168.0.0/16 to 192.168.0.0/16 comment "WEAVE"
     fi
     
     exit 0;
@@ -88,8 +88,8 @@ if [[ "$(echo $NODE_NAME | grep '^node-')" != "" ]]; then
 
     systemctl restart kubelet.service
     
-    ufw allow in on weave to 192.168.0.0/16 comment "WEAVE"
-    ufw allow out on weave from 192.168.0.0/16 comment "WEAVE"
+    ufw allow in on weave to 192.168.0.0/16 from 192.168.0.0/16 comment "WEAVE"
+    ufw allow out on weave from 192.168.0.0/16 to 192.168.0.0/16 comment "WEAVE"
 
     exit 0;
   fi
